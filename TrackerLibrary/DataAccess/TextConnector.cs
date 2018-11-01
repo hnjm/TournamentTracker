@@ -59,6 +59,11 @@ namespace TrackerLibrary.DataAccess
             return model;
         }
 
+        public TeamModel CreateTeam(TeamModel model)
+        {
+            throw new NotImplementedException();
+        }
+
         public BindingList<PersonModel> GetPeople()
         {
             throw new NotImplementedException();

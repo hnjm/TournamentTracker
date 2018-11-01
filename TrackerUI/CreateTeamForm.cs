@@ -21,11 +21,27 @@ namespace TrackerUI
         public CreateTeamForm()
         {
             InitializeComponent();
-            selectTeamMemberDropdown.DataSource = availableTeamMembers;
-            selectTeamMemberDropdown.DisplayMember = "FirstAndLast";
-            teamMembersListBox.DataSource = selectedTeamMembers;
-            teamMembersListBox.DisplayMember = "FirstAndLast";
+            UpdateBindings();
             UpdateTeamMemberCountLabel();
+        }
+
+        private void createTeamButton_Click(object sender, EventArgs e)
+        {
+            if (teamNameValue.Text != "" && selectedTeamMembers.Count > 1)
+            {
+                List<PersonModel> teamMembers = selectedTeamMembers.ToList();
+                string teamName = teamNameValue.Text;
+
+                TeamModel newTeam = new TeamModel { TeamMembers = teamMembers, TeamName = teamName };
+                newTeam = GlobalConfig.Connection.CreateTeam(newTeam);
+                ResetFormToDefaults();
+                UpdateTeamMemberCountLabel();
+                MessageBox.Show("Team successfully created!");
+            }
+            else
+            {
+                MessageBox.Show("Must enter a valid team name and select two or more players!");
+            }
         }
 
         private void createMemberButton_Click(object sender, EventArgs e)
@@ -51,42 +67,6 @@ namespace TrackerUI
             {
                 MessageBox.Show("Invalid form information has been entered!");
             }
-        }
-
-        private bool ValidateForm()
-        {
-            bool isValid = true;
-
-            if (firstNameValue.Text == "")
-            { 
-                isValid = false;
-            }
-
-            if (lastNameValue.Text == "")
-            {
-                isValid = false;
-            }
-            
-            if(emailValue.Text != "")
-            {
-                string emailLast4 = emailValue.Text.Substring(emailValue.Text.Length - 4);
-
-                if (emailValue.Text.IndexOf('@') < 1 || emailLast4 != ".com")
-                {
-                    isValid = false;
-                }
-            }
-            else
-            {
-                isValid = false;
-            }
-            
-            if (cellPhoneValue.Text == "")
-            {
-                isValid = false;
-            }
-
-            return isValid;
         }
 
         private void teamMembersListBox_DataSourceChanged(object sender, EventArgs e)
@@ -116,13 +96,20 @@ namespace TrackerUI
             }
         }
 
-        private void UpdateBindings(params Control[] controls)
+        private void ResetFormToDefaults()
         {
-            foreach(var control in controls)
-            {
-                control.Refresh();
-                control.Update();
-            }
+            selectedTeamMembers = new BindingList<PersonModel>();
+            availableTeamMembers = GlobalConfig.Connection.GetPeople();
+            teamNameValue.Text = "";
+            UpdateBindings();
+        }
+
+        private void UpdateBindings()
+        {
+            selectTeamMemberDropdown.DataSource = availableTeamMembers;
+            selectTeamMemberDropdown.DisplayMember = "FirstAndLast";
+            teamMembersListBox.DataSource = selectedTeamMembers;
+            teamMembersListBox.DisplayMember = "FirstAndLast";
         }
 
         private void UpdateTeamMemberCountLabel()
@@ -131,6 +118,42 @@ namespace TrackerUI
             availablePlayersCountLabelValue.ForeColor = availableTeamMembers.Count > 3 ? Color.LimeGreen : Color.Red;
             currentTeamMembersCountLabel.Text = selectedTeamMembers.Count.ToString();
             currentTeamMembersCountLabel.ForeColor = selectedTeamMembers.Count == 5 ? Color.Green : Color.Red;
-        }  
+        }
+
+        private bool ValidateForm()
+        {
+            bool isValid = true;
+
+            if (firstNameValue.Text == "")
+            {
+                isValid = false;
+            }
+
+            if (lastNameValue.Text == "")
+            {
+                isValid = false;
+            }
+
+            if (emailValue.Text != "")
+            {
+                string emailLast4 = emailValue.Text.Substring(emailValue.Text.Length - 4);
+
+                if (emailValue.Text.IndexOf('@') < 1 || emailLast4 != ".com")
+                {
+                    isValid = false;
+                }
+            }
+            else
+            {
+                isValid = false;
+            }
+
+            if (cellPhoneValue.Text == "")
+            {
+                isValid = false;
+            }
+
+            return isValid;
+        }
     }
 }
