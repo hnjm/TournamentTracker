@@ -17,12 +17,14 @@ namespace TrackerUI
     {
         private BindingList<PersonModel> selectedTeamMembers = new BindingList<PersonModel>();
         private BindingList<PersonModel> availableTeamMembers = GlobalConfig.Connection.GetPeople();
+        ITeamRequestor callingForm;
 
-        public CreateTeamForm()
+        public CreateTeamForm(ITeamRequestor caller)
         {
             InitializeComponent();
             UpdateBindings();
             UpdateTeamMemberCountLabel();
+            callingForm = caller;
         }
 
         private void createTeamButton_Click(object sender, EventArgs e)
@@ -36,7 +38,11 @@ namespace TrackerUI
                 newTeam = GlobalConfig.Connection.CreateTeam(newTeam);
                 ResetFormToDefaults();
                 UpdateTeamMemberCountLabel();
+
+                callingForm.TeamComplete(newTeam);
+
                 MessageBox.Show("Team successfully created!");
+                this.Close();
             }
             else
             {

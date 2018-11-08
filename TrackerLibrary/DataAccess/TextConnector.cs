@@ -68,5 +68,20 @@ namespace TrackerLibrary.DataAccess
         {
             throw new NotImplementedException();
         }
+
+        public BindingList<PrizeModel> GetPrizes_All()
+        {
+            throw new NotImplementedException();
+        }
+
+        public BindingList<PersonModel> GetTeamMembers()
+        {
+            throw new NotImplementedException();
+        }
+
+        public BindingList<TeamModel> GetTeams_All()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

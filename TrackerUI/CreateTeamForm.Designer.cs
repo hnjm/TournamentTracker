@@ -229,6 +229,9 @@
             // 
             // teamMembersListBox
             // 
+            this.teamMembersListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.teamMembersListBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.teamMembersListBox.FormattingEnabled = true;
             this.teamMembersListBox.ItemHeight = 37;
@@ -315,8 +318,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(15F, 37F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1350, 1019);
+            this.ClientSize = new System.Drawing.Size(1327, 973);
             this.Controls.Add(this.availablePlayersCountLabelValue);
             this.Controls.Add(this.availablePlayersLabelText);
             this.Controls.Add(this.maxTeamMemberCountLabel);

@@ -11,7 +11,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
 {
     public static class TextConnectorProcessor
     {
-        public static string FullFilePath(this string filename) // Extension method. any string will now have the "FullFilePath()" method
+        public static string FullFilePath(this string filename) // Extension method. any string (Declared within a class that has access to this namespace) will now have the "FullFilePath()" method
         {
             return $"{ConfigurationManager.AppSettings["filepath"]}\\{filename}";
         }
